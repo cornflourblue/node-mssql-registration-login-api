@@ -1,0 +1,18 @@
+﻿{
+    "dbName": "node-mssql-registration-login-api",
+    "dbConfig": {
+        "server": "localhost",
+        "options": {
+            "port": 1433,
+            "trustServerCertificate": true
+        },
+        "authentication": {
+            "type": "default",
+            "options": {
+                "userName": "sa",
+                "password": ""
+            }
+        }
+    },
+    "secret": "THIS IS USED TO SIGN AND VERIFY JWT TOKENS, REPLACE IT WITH YOUR OWN SECRET, IT CAN BE ANY STRING"
+}
