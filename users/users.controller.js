@@ -81,6 +81,7 @@ function update(req, res, next) {
 }
 
 function updateCompany(req,res,next){
+    console.log(req);
     userService.updateCompany(req.params.username, req.body)
         .then(user => res.json(user))
         .catch(next);

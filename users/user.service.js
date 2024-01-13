@@ -70,6 +70,8 @@ async function update(id, params) {
 }
 
 async function updateCompany(username,params){
+    console.log('service');
+    console.log(params.companyList);
     const user = await db.User.findOne({ where: {username:username}});
     user.set({companyId: params.companyList});
     user.save();

@@ -43,9 +43,8 @@ async function create(params) {
     }*/
 
     // save user
-    console.log('inside create');
-    console.log(params);
-    await db.Company.create(params);
+    return await db.Company.create(params);
+    //return await db.Company.findOne({where : {companyName: params.companyName, zip: params.zip}}); 
 }
 
 async function update(id, params) {
