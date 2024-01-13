@@ -1,23 +1,21 @@
-﻿const express = require('express');
-const router = express.Router();
+const express = require('express');
+const _router = express.Router();
 const Joi = require('joi');
 
 const validateRequest = require('_middleware/validate-request');
 const authorize = require('_middleware/authorize')
-const userService = require('./user.service');
+const companyService = require('./company.service');
 
 // routes
-router.post('/authenticate', authenticateSchema, authenticate);
-router.post('/register', registerSchema, register);
-router.get('/getAll', getAll);
-router.get('/current', authorize(), getCurrent);
-router.put('/:username',updateCompany);
-router.put('/updateJob/:username',updateJob);
-router.get('/:id', authorize(), getById);
-router.put('/:id', authorize(), updateSchema, update);
-router.delete('/:id', _delete);
+_router.post('/authenticate', authenticateSchema, authenticate);
+_router.post('/register', registerSchema, register);
+_router.get('/getAll',  getAll);
+_router.get('/current', authorize(), getCurrent);
+_router.get('/:id', authorize(), getById);
+_router.put('/:id', authorize(), updateSchema, update);
+_router.delete('/:id', _delete);
 
-module.exports = router;
+module.exports = _router;
 
 function authenticateSchema(req, res, next) {
     const schema = Joi.object({
@@ -35,23 +33,27 @@ function authenticate(req, res, next) {
 
 function registerSchema(req, res, next) {
     const schema = Joi.object({
-        firstName: Joi.string().required(),
-        lastName: Joi.string().required(),
-        username: Joi.string().required(),
-        password: Joi.string().min(6).required()
+        companyName: Joi.string().required(),
+        address: Joi.string().required(),
+        city: Joi.string().required(),
+        state: Joi.string().required(),
+        zip: Joi.number().required(),
+        gstNbr: Joi.string().required(),
+        cinNbr: Joi.string().required(),
+        panNbr: Joi.string().required(),
     });
     validateRequest(req, next, schema);
 }
 
 function register(req, res, next) {
-    userService.create(req.body)
-        .then(() => res.json({ message: 'Registration successful' }))
+    companyService.create(req.body)
+        .then(company => res.json(company))
         .catch(next);
 }
 
 function getAll(req, res, next) {
-    userService.getAll()
-        .then(users => res.json(users))
+    companyService.getAll()
+        .then(company => res.json(company))
         .catch(next);
 }
 
@@ -80,19 +82,6 @@ function update(req, res, next) {
         .then(user => res.json(user))
         .catch(next);
 }
-
-function updateCompany(req,res,next){
-    userService.updateCompany(req.params.username, req.body)
-        .then(user => res.json(user))
-        .catch(next);
-}
-
-function updateJob(req,res,next){
-    userService.updateJob(req.params.username, req.body)
-        .then(user => res.json(user))
-        .catch(next);
-}
-
 
 function _delete(req, res, next) {
     userService.delete(req.params.id)

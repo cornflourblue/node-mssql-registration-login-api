@@ -1,5 +1,5 @@
 ﻿{
-    "dbName": "node-mssql-registration-login-api",
+    "dbName": "bidConnectSql",
     "dbConfig": {
         "server": "localhost",
         "options": {
@@ -10,9 +10,9 @@
             "type": "default",
             "options": {
                 "userName": "sa",
-                "password": ""
+                "password": "12345OHdf%e"
             }
         }
     },
-    "secret": "THIS IS USED TO SIGN AND VERIFY JWT TOKENS, REPLACE IT WITH YOUR OWN SECRET, IT CAN BE ANY STRING"
+    "secret":"randok"
 }

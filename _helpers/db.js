@@ -20,9 +20,28 @@ async function initialize() {
 
     // init models and add them to the exported db object
     db.User = require('../users/user.model')(sequelize);
+    db.Company = require('../companyDetails/company.model')(sequelize);
+    db.Job = require('../jobDesc/job.model')(sequelize);
 
     // sync all models with database
-    await sequelize.sync({ alter: true });
+    await db.User.sync({ alter: true });
+    await db.Company.sync({alter: true});
+    await db.Job.sync({alter:true});
+    //await sequelize.sync({ alter: true });
+    //insert default values for job description
+    //await insertIntoJob();
+}
+
+async function insertIntoJob(){
+    const jobDetails =  await db.Job.bulkCreate([
+        {jobDesc: 'Owner' ,canSeeBids:0 ,canSubmitProjects:0},
+        {jobDesc: 'Project Manager' ,canSeeBids:0 ,canSubmitProjects:0},
+        {jobDesc: 'Project Engineer' ,canSeeBids:0 ,canSubmitProjects:0},
+        {jobDesc: 'Procurement Head' ,canSeeBids:0 ,canSubmitProjects:0},
+        {jobDesc: 'Procurement Manager' ,canSeeBids:0 ,canSubmitProjects:0},
+        {jobDesc: 'Technical Advisor' ,canSeeBids:0 ,canSubmitProjects:0},
+        {jobDesc: 'Other' ,canSeeBids:0 ,canSubmitProjects:0}
+    ]);
 }
 
 async function ensureDbExists(dbName) {

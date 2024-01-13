@@ -7,7 +7,10 @@ function model(sequelize) {
         firstName: { type: DataTypes.STRING, allowNull: false },
         lastName: { type: DataTypes.STRING, allowNull: false },
         username: { type: DataTypes.STRING, allowNull: false },
-        hash: { type: DataTypes.STRING, allowNull: false }
+        hash: { type: DataTypes.STRING, allowNull: false },
+        phone: { type: DataTypes.STRING, allowNull: true },
+        companyId: { type: DataTypes.INTEGER, allowNull: true},
+        jobId: { type: DataTypes.INTEGER, allowNull: true}
     };
 
     const options = {
