@@ -12,6 +12,7 @@ app.use(cors());
 // api routes
 app.use('/users', require('./users/users.controller'));
 app.use('/company',require('./companyDetails/company.controller'));
+app.use('/job',require('./jobDesc/job.controller'));
 
 // global error handler
 app.use(errorHandler);

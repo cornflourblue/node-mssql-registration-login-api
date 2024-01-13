@@ -11,7 +11,8 @@ module.exports = {
     create,
     update,
     delete: _delete,
-    updateCompany
+    updateCompany,
+    updateJob
 };
 
 async function authenticate({ username, password }) {
@@ -70,10 +71,15 @@ async function update(id, params) {
 }
 
 async function updateCompany(username,params){
-    console.log('service');
-    console.log(params.companyList);
     const user = await db.User.findOne({ where: {username:username}});
     user.set({companyId: params.companyList});
+    user.save();
+}
+
+async function updateJob(username,params){
+    const user = await db.User.findOne({ where: {username:username}});
+    user.set({jobId: params.jobTitle});
+    user.set({phone: params.phone});
     user.save();
 }
 

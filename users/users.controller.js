@@ -12,6 +12,7 @@ router.post('/register', registerSchema, register);
 router.get('/getAll', getAll);
 router.get('/current', authorize(), getCurrent);
 router.put('/:username',updateCompany);
+router.put('/updateJob/:username',updateJob);
 router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), updateSchema, update);
 router.delete('/:id', _delete);
@@ -81,8 +82,13 @@ function update(req, res, next) {
 }
 
 function updateCompany(req,res,next){
-    console.log(req);
     userService.updateCompany(req.params.username, req.body)
+        .then(user => res.json(user))
+        .catch(next);
+}
+
+function updateJob(req,res,next){
+    userService.updateJob(req.params.username, req.body)
         .then(user => res.json(user))
         .catch(next);
 }
