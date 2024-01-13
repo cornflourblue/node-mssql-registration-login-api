@@ -1,18 +1,16 @@
-﻿const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 const { secret } = require('config.json');
 const db = require('_helpers/db');
 
 module.exports = {
-    authenticate,
-    getAll,
-    getById,
     create,
-    update,
     delete: _delete,
-    updateCompany
+    update,
+    getAll
 };
+
 
 async function authenticate({ username, password }) {
     const user = await db.User.scope('withHash').findOne({ where: { username } });
@@ -26,7 +24,7 @@ async function authenticate({ username, password }) {
 }
 
 async function getAll() {
-    return await db.User.findAll();
+    return await db.Company.findAll();
 }
 
 async function getById(id) {
@@ -35,17 +33,19 @@ async function getById(id) {
 
 async function create(params) {
     // validate
-    if (await db.User.findOne({ where: { username: params.username } })) {
+    /*if (await db.User.findOne({ where: { username: params.username } })) {
         throw 'Username "' + params.username + '" is already taken';
     }
 
     // hash password
     if (params.password) {
         params.hash = await bcrypt.hash(params.password, 10);
-    }
+    }*/
 
     // save user
-    await db.User.create(params);
+    console.log('inside create');
+    console.log(params);
+    await db.Company.create(params);
 }
 
 async function update(id, params) {
@@ -69,23 +69,17 @@ async function update(id, params) {
     return omitHash(user.get());
 }
 
-async function updateCompany(username,params){
-    const user = await db.User.findOne({ where: {username:username}});
-    user.set({companyId: params.companyList});
-    user.save();
-}
-
 async function _delete(id) {
-    const user = await getUser(id);
-    await user.destroy();
+    const company = await getCompany(id);
+    await company.destroy();
 }
 
 // helper functions
 
 async function getUser(id) {
-    const user = await db.User.findByPk(id);
-    if (!user) throw 'User not found';
-    return user;
+    const company = await db.Company.findByPk(id);
+    if (!company) throw 'Company not found';
+    return company;
 }
 
 function omitHash(user) {
