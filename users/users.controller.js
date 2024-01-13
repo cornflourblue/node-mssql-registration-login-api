@@ -93,6 +93,7 @@ function updateJob(req,res,next){
         .catch(next);
 }
 
+
 function _delete(req, res, next) {
     userService.delete(req.params.id)
         .then(() => res.json({ message: 'User deleted successfully' }))
